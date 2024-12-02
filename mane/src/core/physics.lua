@@ -26,9 +26,16 @@ local m = {}
 m.worlds = {}
 
 local worldClass = {}
+local physicsMethods = require('mane.src.core.methods.physics')
 
 function worldClass:addBody(obj, bodyType, options)
-    obj:removeBody()
+    for key, value in pairs(physicsMethods) do
+        obj[key] = value
+    end
+
+    if self.fixture then
+        self.fixture:destroy()
+    end
 
     if options then
         if options.shape == "rect" then
